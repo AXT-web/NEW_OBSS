@@ -31,10 +31,10 @@ app.use(function (req, res, next) {
 // 解析Token中间件
 const expressJWT = require('express-jwt')
 // 指定哪些接口不需要进行 Token 的身份认证
-app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/api\//] }))
+app.use(expressJWT({ secret: config.jwtSecretKey }).unless({ path: [/^\/users\//] }))
 
 
-app.use('/api', userRouter)
+app.use('/users', userRouter)
 
 // 错误中间件
 app.use(function (err, req, res, next) {

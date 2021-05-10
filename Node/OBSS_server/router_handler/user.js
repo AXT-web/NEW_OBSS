@@ -25,7 +25,7 @@ exports.regUser = (req, res) => {
             return res.send({ status: 1, message: '用户名被占用，请更换其他用户名！' })
         }
         // 对用户的密码,进行 bcrype 加密，返回值是加密之后的密码字符串
-        userinfo.password = bcrypt.hashSync(userinfo.password, 10)
+        userinfo.password = bcrypt.hashSync(userinfo.password, 21)
 
         const sql = 'insert into ev_users set ?'
         db.query(sql, { username: userinfo.username, password: userinfo.password }, function (err, results) {
@@ -60,7 +60,7 @@ exports.login = (req, res) => {
         const tokenStr = jwt.sign(user, config.jwtSecretKey, {
             expiresIn: '10h', // token 有效期为 10 个小时
         })
-        
+
         res.send({
             status: 0,
             message: '登录成功！',
