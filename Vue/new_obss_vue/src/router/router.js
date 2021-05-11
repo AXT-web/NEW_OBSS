@@ -2,14 +2,20 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from '../components/Login.vue'
 import Home from '../components/Home.vue'
+import Register from '../components/Register.vue'
+import MyCar from '../components/MyCar.vue'
+import PersonalCenter from '../components/PersonalCenter.vue'
 
 Vue.use(Router)
 
 const router = new Router({
   routes: [
-    { path: '/', redirect: '/login' },
+    { path: '/', redirect: '/home' },
+    { path: '/home', component: Home },
     { path: '/login', component: Login },
-    { path: '/home', component: Home }
+    { path: '/register', component: Register },
+    { path: '/myCar', component: MyCar },
+    { path: '/personalCenter', component: PersonalCenter }
   ]
 })
 
