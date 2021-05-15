@@ -3,8 +3,8 @@ import App from './App.vue'
 import router from './router/router'
 import './plugins/element.js'
 import 'element-ui/lib/theme-chalk/index.css'
-import './assets/css/global.css'
 import './assets/fonts/iconfont.css'
+import './assets/css/global.css'
 import axios from 'axios'
 
 Vue.config.productionTip = false

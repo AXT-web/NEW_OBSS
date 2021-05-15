@@ -2,45 +2,43 @@
   <div>
     <!-- 导航栏模块 -->
     <section>
-      <div class="shortcat">
-        <div class="w">
-          <div class="fl">
-            <ul>
-              <li>网上书城欢迎您！&nbsp;</li>
-              <li v-if="!isLogin">
-                <router-link :to="{ path: '/login' }">请登录</router-link>
-                &nbsp;
-                <router-link :to="{ path: '/register' }" class="style_red"
-                  >免费注册</router-link
-                >
-              </li>
-              <li v-else>
-                <p class="fl">{{ userName }} 用户 &nbsp;</p>
-                <a href="javascript:0" class="style_red fl" @click="clearLog"
-                  >注销</a
-                >
-              </li>
-            </ul>
-          </div>
-          <div class="fr">
-            <ul>
-              <li>
-                <router-link :to="{ path: '/myCar' }">购物车</router-link>
-              </li>
-              <li></li>
-              <li>
-                <router-link :to="{ path: '/personalCenter' }"
-                  >我的订单</router-link
-                >
-              </li>
-              <li></li>
-              <li>
-                <router-link :to="{ path: '/personalCenter' }"
-                  >个人中心</router-link
-                >
-              </li>
-            </ul>
-          </div>
+      <div class="w">
+        <div class="fl">
+          <ul>
+            <li>网上书城欢迎您！&nbsp;</li>
+            <li v-if="!isLogin">
+              <router-link :to="{ path: '/login' }">请登录</router-link>
+              &nbsp;
+              <router-link :to="{ path: '/register' }" class="style_red"
+                >免费注册</router-link
+              >
+            </li>
+            <li v-else>
+              <p class="fl">{{ userName }} 用户 &nbsp;</p>
+              <a href="javascript:0" class="style_red fl" @click="clearLog"
+                >注销</a
+              >
+            </li>
+          </ul>
+        </div>
+        <div class="fr">
+          <ul>
+            <li>
+              <router-link :to="{ path: '/myCar' }">购物车</router-link>
+            </li>
+            <li></li>
+            <li>
+              <router-link :to="{ path: '/personalCenter' }"
+                >我的订单</router-link
+              >
+            </li>
+            <li></li>
+            <li>
+              <router-link :to="{ path: '/personalCenter' }"
+                >个人中心</router-link
+              >
+            </li>
+          </ul>
         </div>
       </div>
     </section>
@@ -86,7 +84,7 @@
               <li v-for="item in navList" :key="item.id">
                 <div class="nav_title">
                   <span class="fl">{{ item.title }}</span>
-                  <div class="fr">{{ nvatap }}</div>
+                  <div class="fr">&gt;</div>
                   <ul class="navShowValue">
                     <li v-for="item2 in item.value" :key="item2.id">
                       <router-link :to="{ path: item2.href }" class="navItam">
@@ -110,25 +108,103 @@
         </div>
       </div>
     </nav>
+    <!-- main 模块制作 -->
     <div class="w">
       <div class="main">
         <div class="focus">
-          <el-carousel :interval="5000" arrow="always" height="455px">
-            <el-carousel-item v-for="item in swiperList" :key="item">
+          <el-carousel :interval="5000" arrow="always" height="465px">
+            <el-carousel-item v-for="item in swiperList" :key="item.id">
               <router-link :to="{ path: item.href }">
-                <img :src="item.imgSrc" alt="" />
+                <img :src="item.imgSrc" :alt="item.alt" />
               </router-link>
             </el-carousel-item>
           </el-carousel>
         </div>
+        <div class="newsflash">
+          <div class="news">
+            <div class="news-hd">
+              <h5>互动播报</h5>
+              <a href="#" class="fr">更多&nbsp;&gt;</a>
+            </div>
+            <div class="news-bd">
+              <ul>
+                <li v-for="item in newsList" :key="item.id">
+                  <router-link :to="{ path: item.href }">
+                    <strong>[重磅]</strong>
+                    {{ item.value }}
+                  </router-link>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="promotional">
+            <div class="promotional-hd">
+              <h5>促销商品</h5>
+              <a href="#" class="fr">更多&nbsp;&gt;</a>
+            </div>
+            <div class="promotional-bd">
+              <el-carousel
+                :interval="8000"
+                arrow="always"
+                height="240px"
+                indicator-position="none"
+              >
+                <el-carousel-item
+                  v-for="item in promotionalList"
+                  :key="item.id"
+                >
+                  <div class="promotional-goods">
+                    <router-link :to="{ path: item.href }">
+                      <h5>{{ item.bookName }}</h5>
+                      <img :src="item.imgSrc" :alt="item.alt" />
+                    </router-link>
+                  </div>
+                  <div class="promotional-price">
+                    <div>
+                      <span>原价:&nbsp;{{ item.bookPrice1 }}</span>
+                    </div>
+                    <div>
+                      <span class="style_red" style="leter-space"
+                        >特价:&nbsp;{{ item.bookPrice2 }}</span
+                      >
+                    </div>
+                  </div>
+                </el-carousel-item>
+              </el-carousel>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <div></div>
-    <footer></footer>
+    <!-- 楼层区域制作 -->
+    <div class="w" style="margin-top: 20px">
+      <!-- 推荐模块 -->
+      <div class="mod_recommend">
+        <el-tabs type="border-card">
+          <el-tab-pane
+            v-for="item in louchengList"
+            :key="item.id"
+            :label="item.value"
+          >
+            <el-tabs type="card" class="classification" v-model="activeName">
+              <el-tab-pane
+                :label="item2.value"
+                :name="item2.value"
+                v-for="item2 in item.valueList"
+                :key="item2.id"
+              >
+                <div v-for="item3 in item2.valueList" :key="item3.id" class="recommend_book_box">
+                  <div class="img_box"></div>
+                  <div class="bookname_box"></div>
+                  <div class="biaoqian_box"></div>
+                  <div class="price_box"></div>
+                </div>
+              </el-tab-pane>
+            </el-tabs>
+          </el-tab-pane>
+        </el-tabs>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -138,9 +214,11 @@ export default {
     return {
       isLogin: true,
       userName: '18775921835',
+      // 搜索热词
       searchHot: '算法设计与计算分析',
       searchWord: '',
       goodsNumber: '8',
+      // 热点词汇
       hotWords: [
         { id: 1, value: '网络与通信', href: '#' },
         { id: 2, value: '编程语言与程序设计', href: '#' },
@@ -149,6 +227,7 @@ export default {
         { id: 5, value: '人工智能', href: '#' },
         { id: 6, value: '算法设计', href: '#' },
       ],
+      // 标题导航栏信息
       titleList: [
         { id: 1, value: '首页', href: '#' },
         { id: 2, value: '新书', href: '#' },
@@ -157,6 +236,7 @@ export default {
         { id: 5, value: '网络小说', href: '#' },
         { id: 6, value: '排行', href: '#' },
       ],
+      // 菜单导航栏信息
       navList: [
         {
           id: 1,
@@ -369,7 +449,7 @@ export default {
           ],
         },
       ],
-      nvatap: '<',
+      // 大轮播图列表
       swiperList: [
         {
           id: 1,
@@ -396,6 +476,948 @@ export default {
           alt: '1',
         },
       ],
+      // 促销商品小轮播图列表
+      promotionalList: [
+        {
+          id: 1,
+          bookName: '阿里巴巴B2B电商算法实战',
+          bookPrice1: 99,
+          bookPrice2: 88,
+          imgSrc: require('../assets/upload/2020120146.jpg'),
+          bookSku: 2020120146,
+          alt: 111,
+        },
+        {
+          id: 2,
+          bookName: '阿里巴巴B2B电商算法实战',
+          bookPrice1: 99,
+          bookPrice2: 88,
+          imgSrc: require('../assets/upload/2020120146.jpg'),
+          bookSku: 2020120146,
+          alt: 111,
+        },
+        {
+          id: 3,
+          bookName: '阿里巴巴B2B电商算法实战',
+          bookPrice1: 99,
+          bookPrice2: 88,
+          imgSrc: require('../assets/upload/2020120146.jpg'),
+          bookSku: 2020120146,
+          alt: 111,
+        },
+      ],
+      // 新闻列表
+      newsList: [
+        {
+          id: 1,
+          href: '#',
+          value: '华章经典--IT科技 经济管理 人文心理',
+        },
+        {
+          id: 2,
+          href: '#',
+          value: '认识世界，百科全书',
+        },
+        {
+          id: 3,
+          href: '#',
+          value:
+            '客户成功：持续复购和利润徒增的基石--中国SaaS领域10位资深专家推荐',
+        },
+        {
+          id: 4,
+          href: '#',
+          value: '宇宙观：一场跨越时空的宇宙探秘之旅',
+        },
+        {
+          id: 5,
+          href: '#',
+          value: '5G时代，给未来生活带来怎样的便利',
+        },
+      ],
+      // 楼层列表
+      louchengList: [
+        {
+          id: 1,
+          value: '编辑推荐',
+          valueList: [
+            {
+              id: 1,
+              value: '计算机',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 2,
+              value: '科学技术',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 3,
+              value: '经济管理',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 4,
+              value: '人文社科',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 2,
+          value: '出版社推荐',
+          valueList: [
+            {
+              id: 1,
+              value: '计算机',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 2,
+              value: '科学技术',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 3,
+              value: '经济管理',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 4,
+              value: '人文社科',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 3,
+          value: '重磅推荐',
+          valueList: [
+            {
+              id: 1,
+              value: '计算机',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 2,
+              value: '科学技术',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 3,
+              value: '经济管理',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 4,
+              value: '人文社科',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 4,
+          value: '按需印刷推荐',
+          valueList: [
+            {
+              id: 1,
+              value: '计算机',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 2,
+              value: '科学技术',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 3,
+              value: '经济管理',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+            {
+              id: 4,
+              value: '人文社科',
+              valueList: [
+                {
+                  id: 1,
+                  href: '#',
+                  src: require('../assets/upload/2020120102.jpg'),
+                  alt: '2020120102',
+                  bookName: 'PyTorch深度学习实战',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 2,
+                  href: '#',
+                  src: require('../assets/upload/2020120103.jpg'),
+                  alt: '2020120103',
+                  bookName: 'Spring Boot技术内幕：架构设计与实现原理',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 3,
+                  href: '#',
+                  src: require('../assets/upload/2020120104.jpg'),
+                  alt: '2020120104',
+                  bookName: '互联网安全建设从0到1',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 4,
+                  href: '#',
+                  src: require('../assets/upload/2020120105.jpg'),
+                  alt: '2020120105',
+                  bookName: 'CTF特训营:技术详解、解题方法与竞赛技巧',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+                {
+                  id: 5,
+                  href: '#',
+                  src: require('../assets/upload/2020120106.jpg'),
+                  alt: '2020120106',
+                  bookName: '大数据原理与实践：复杂信息的准备、共享和分析',
+                  bookPrice1: 99,
+                  bookPrice2: 66,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+      activeName: '计算机',
+      // 分类列表
+      fenleiList: [
+        {
+          id: 1,
+          fenleiTitle: '计算机图书',
+          fenleiTitle_href: '#',
+          fenleiTitle_value: [
+            {
+              id: 1,
+              value: '人工智能',
+              href: '#',
+            },
+            {
+              id: 2,
+              value: '程序设计',
+              href: '#',
+            },
+            {
+              id: 3,
+              value: '数理分析',
+              href: '#',
+            },
+            {
+              id: 4,
+              value: '网络安全',
+              href: '#',
+            },
+          ],
+        },
+        {
+          id: 2,
+        },
+        {
+          id: 3,
+        },
+        {
+          id: 4,
+        },
+      ],
     }
   },
   methods: {
@@ -405,19 +1427,13 @@ export default {
       this.UserName = ''
       console.log('IsLogin:' + this.IsLogin)
     },
-    ShowNav(e) {
-      this.ShowNavID = e
-    },
-    BackNav() {
-      this.ShowNavID = 0
-    },
   },
 }
 </script>
 
 <style lang='less' scoped>
 /* 快捷导航模块 */
-.shortcat {
+section {
   height: 31px;
   line-height: 31px;
   background-color: #b1b1b1;
@@ -612,7 +1628,7 @@ nav {
 /* 主体大盒子 */
 .main {
   width: 980px;
-  height: 455px;
+  height: 465px;
   /* background-color: skyblue; */
   margin-left: 220px;
   margin-top: 10px;
@@ -621,12 +1637,124 @@ nav {
   .focus {
     float: left;
     width: 721px;
-    height: 455px;
+    height: 465px;
     background-color: skyblue;
 
     img {
       height: 100%;
       width: 100%;
+    }
+  }
+
+  /* 新闻焦点 */
+  .newsflash {
+    float: right;
+    width: 250px;
+    height: 465px;
+
+    .news {
+      height: 165px;
+      border: 2px solid #afafaf;
+
+      .news-hd {
+        height: 33px;
+        line-height: 33px;
+        border-bottom: 2px dotted #afafaf;
+        padding: 0 15px;
+
+        h5 {
+          float: left;
+          font-size: 14px;
+        }
+      }
+
+      .news-bd {
+        padding: 5px 15px 0;
+
+        ul li {
+          height: 24px;
+          line-height: 24px;
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+  }
+
+  .promotional {
+    height: 290px;
+    background-color: #fff;
+    margin-top: 10px;
+    border: 2px solid #afafaf;
+
+    .promotional-hd {
+      height: 33px;
+      line-height: 33px;
+      border-bottom: 2px dotted #afafaf;
+      padding: 0 15px;
+
+      h5 {
+        float: left;
+        font-size: 14px;
+      }
+    }
+
+    .promotional-bd {
+      height: 245px;
+      position: relative;
+      padding: 5px 15px 0;
+
+      .promotional-goods {
+        height: 188px;
+        width: 160px;
+        margin: 0 25px;
+
+        img {
+          height: 170px;
+          width: 170px;
+        }
+      }
+
+      .promotional-price {
+        height: 40px;
+        width: 160px;
+        margin-left: 50px;
+        font-size: 15px;
+        letter-spacing: 3px;
+        font-weight: bold;
+      }
+    }
+  }
+}
+/* 推荐模块盒子 */
+.mod_recommend {
+  float: left;
+  height: 450px;
+  width: 940px;
+  background-color: #fff;
+  border-radius: 8px;
+  border: 2px solid #afafaf;
+
+  .recommend_book_box {
+    float: left;
+    height: 305px;
+    width: 169px;
+    margin: 12px 6px;
+    background-color: skyblue;
+    
+    .img_box {
+      height: 160px;
+
+    }
+    .bookname_box {
+      height: 20px;
+    }
+    .biaoqian_box {
+      height: 20px;
+    }
+    .price_box {
+    height: 20px;
     }
   }
 }
